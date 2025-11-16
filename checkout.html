@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Swoo Tech Mart</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Checkout Page Specific Styles */
+        .page-header {
+            background-color: #f8f9fa;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb span {
+            color: var(--gray);
+        }
+
+        .checkout-section {
+            padding: 60px 0;
+        }
+
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .checkout-form {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 178, 7, 0.1);
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+
+        .form-check-label {
+            font-size: 14px;
+        }
+
+        .payment-methods {
+            margin-top: 30px;
+        }
+
+        .payment-method {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method.active {
+            border-color: var(--primary-color);
+            background-color: rgba(0, 178, 7, 0.05);
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .payment-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-logo img {
+            height: 30px;
+        }
+
+        .payment-title {
+            font-weight: 600;
+        }
+
+        .payment-content {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .payment-method.active .payment-content {
+            display: block;
+        }
+
+        .card-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card-input {
+            position: relative;
+        }
+
+        .card-input i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .order-summary {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .item-variant {
+            font-size: 12px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .item-quantity {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .item-total {
+            font-weight: 600;
+        }
+
+        .summary-totals {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .coupon-form {
+            display: flex;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .coupon-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+        }
+
+        .coupon-btn {
+            padding: 0 15px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .place-order-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .secure-checkout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+
+            .card-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <!-- Header Top Bar -->
+        <div class="header-top">
+            <div class="container header-top-content">
+                <div class="header-top-left">
+                    <div class="welcome-text">Welcome to Swoo Tech Mart!</div>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Store Location: Hayatabad, Peshawar Pakistan</span>
+                    </div>
+                </div>
+                <div class="header-top-right">
+                    <div class="language-selector">
+                        <i class="fas fa-globe"></i>
+                        <span>English</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="currency-selector">
+                        <span>USD</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Main -->
+        <div class="header-main">
+            <div class="container header-main-content">
+                <div class="logo">
+                    <a href="index.html">Swoo Tech Mart</a>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for products...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <div class="action-item">
+                        <i class="far fa-user"></i>
+                        <span>Account</span>
+                    </div>
+                    <div class="action-item">
+                        <i class="far fa-heart"></i>
+                        <span>Wishlist</span>
+                    </div>
+                    <div class="action-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="nav-menu">
+            <div class="container nav-menu-content">
+                <div class="categories-dropdown">
+                    <i class="fas fa-bars"></i>
+                    <span>All Categories</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="contact-info">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <span>Call Us Now</span>
+                        <strong>+92 318 1936541</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1>Checkout</h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <a href="cart.html">Cart</a>
+                <span>/</span>
+                <span>Checkout</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Section -->
+    <section class="checkout-section">
+        <div class="container">
+            <div class="checkout-container">
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <h2 class="form-title">Billing Details</h2>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">First Name *</label>
+                                <input type="text" id="firstName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Last Name *</label>
+                                <input type="text" id="lastName" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="companyName" class="form-label">Company Name (Optional)</label>
+                            <input type="text" id="companyName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="country" class="form-label">Country / Region *</label>
+                            <select id="country" class="form-control" required>
+                                <option value="">Select a country</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="AU">Australia</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="streetAddress" class="form-label">Street Address *</label>
+                            <input type="text" id="streetAddress" class="form-control" placeholder="House number and street name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="streetAddress2" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city" class="form-label">Town / City *</label>
+                                <input type="text" id="city" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="state" class="form-label">State / Province *</label>
+                                <select id="state" class="form-control" required>
+                                    <option value="">Select a state</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="NY">New York</option>
+                                    <option value="TX">Texas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="zipCode" class="form-label">ZIP / Postal Code *</label>
+                            <input type="text" id="zipCode" class="form-control" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Phone *</label>
+                                <input type="tel" id="phone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address *</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" id="createAccount" class="form-check-input">
+                                <label for="createAccount" class="form-check-label">Create an account?</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" id="shipDifferent" class="form-check-input">
+                                <label for="shipDifferent" class="form-check-label">Ship to a different address?</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="orderNotes" class="form-label">Order Notes (Optional)</label>
+                            <textarea id="orderNotes" class="form-control" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+                        </div>
+                    </form>
+
+                    <div class="payment-methods">
+                        <h3 class="form-title">Payment Method</h3>
+                        <div class="payment-method active">
+                            <div class="payment-header">
+                                <div class="payment-logo">
+                                    <input type="radio" name="payment" id="creditCard" checked>
+                                    <label for="creditCard" class="payment-title">Credit Card</label>
+                                </div>
+                                <div class="payment-methods">
+                                    <img src="./assets/images/Visa.png" alt="Visa">
+                                    <img src="./assets/images/MasterCard.png" alt="MasterCard">
+                                    <img src="./assets/images/American Express.png" alt="American Express">
+                                </div>
+                            </div>
+                            <div class="payment-content">
+                                <div class="form-group">
+                                    <label for="cardNumber" class="form-label">Card Number *</label>
+                                    <div class="card-input">
+                                        <input type="text" id="cardNumber" class="form-control" placeholder="1234 5678 9012 3456" required>
+                                        <i class="far fa-credit-card"></i>
+                                    </div>
+                                </div>
+                                <div class="card-inputs">
+                                    <div class="form-group">
+                                        <label for="cardExpiry" class="form-label">Expiry Date *</label>
+                                        <input type="text" id="cardExpiry" class="form-control" placeholder="MM / YY" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cardCvv" class="form-label">CVV *</label>
+                                        <div class="card-input">
+                                            <input type="text" id="cardCvv" class="form-control" placeholder="123" required>
+                                            <i class="fas fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payment-method">
+                            <div class="payment-header">
+                                <div class="payment-logo">
+                                    <input type="radio" name="payment" id="paypal">
+                                    <label for="paypal" class="payment-title">PayPal</label>
+                                </div>
+                                <div class="payment-icons">
+                                    <img src="./assets/images/PayPal.png" alt="PayPal" height="30">
+                                </div>
+                            </div>
+                            <div class="payment-content">
+                                <p>You will be redirected to PayPal to complete your purchase securely.</p>
+                            </div>
+                        </div>
+                        <div class="payment-method">
+                            <div class="payment-header">
+                                <div class="payment-logo">
+                                    <input type="radio" name="payment" id="cashOnDelivery">
+                                    <label for="cashOnDelivery" class="payment-title">Cash on Delivery</label>
+                                </div>
+                                <div class="payment-icons">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                            </div>
+                            <div class="payment-content">
+                                <p>Pay with cash upon delivery.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h3 class="summary-title">Order Summary</h3>
+                    <div class="cart-items">
+                        <div class="cart-item">
+                            <div class="item-image">
+                                <img src="./assets/images/Iphone 14.png" alt="iPhone 14 Pro Max">
+                            </div>
+                            <div class="item-details">
+                                <h4 class="item-name">iPhone 14 Pro Max</h4>
+                                <p class="item-variant">256GB, Deep Purple</p>
+                                <div class="item-price">
+                                    <span class="item-quantity">1 × $1,099.00</span>
+                                    <span class="item-total">$1,099.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart-item">
+                            <div class="item-image">
+                                <img src="./assets/images/john-m-smit-Mc5EwlPC3zA-unsplash.jpg" alt="AirPods Pro">
+                            </div>
+                            <div class="item-details">
+                                <h4 class="item-name">AirPods Pro</h4>
+                                <p class="item-variant">White</p>
+                                <div class="item-price">
+                                    <span class="item-quantity">1 × $249.00</span>
+                                    <span class="item-total">$249.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-form">
+                        <input type="text" class="coupon-input" placeholder="Coupon code">
+                        <button class="coupon-btn">Apply</button>
+                    </div>
+                    <div class="summary-totals">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span>$1,348.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span>Free</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax</span>
+                            <span>$134.80</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span>$1,482.80</span>
+                        </div>
+                    </div>
+                    <button class="place-order-btn">Place Order</button>
+                    <div class="secure-checkout">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure Checkout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-column">
+                    <h3>Swoo Tech Mart</h3>
+                    <p>Your one-stop destination for all your tech needs. We offer a wide range of products at competitive prices with excellent customer service.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Order Tracking</a></li>
+                        <li><a href="#">Wishlist</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Hayatabad, Peshawar, Pakistan</p>
+                    <p><i class="fas fa-phone-alt"></i> +92 318 1936541</p>
+                    <p><i class="fas fa-envelope"></i> support@swootechmart.com</p>
+                    <p><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Swoo Tech Mart. All Rights Reserved.</p>
+                <div class="payment-methods">
+                    <img src="./assets/images/Visa.png" alt="Visa">
+                    <img src="./assets/images/MasterCard.png" alt="MasterCard">
+                    <img src="./assets/images/PayPal.png" alt="PayPal">
+                    <img src="./assets/images/American Express.png" alt="American Express">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Payment Method Selection
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const paymentRadios = document.querySelectorAll('input[name="payment"]');
+            
+            paymentRadios.forEach((radio, index) => {
+                radio.addEventListener('change', function() {
+                    paymentMethods.forEach(method => {
+                        method.classList.remove('active');
+                    });
+                    paymentMethods[index].classList.add('active');
+                });
+            });
+            
+            // Form Validation
+            const form = document.querySelector('form');
+            const placeOrderBtn = document.querySelector('.place-order-btn');
+            
+            placeOrderBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Simple validation
+                const requiredInputs = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredInputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.style.borderColor = 'red';
+                    } else {
+                        input.style.borderColor = '';
+                    }
+                });
+                
+                if (isValid) {
+                    alert('Order placed successfully! Thank you for your purchase.');
+                    // In a real application, you would submit the form or make an API call here
+                } else {
+                    alert('Please fill in all required fields.');
+                }
+            });
+            
+            // Reset validation styling on input
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    this.style.borderColor = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

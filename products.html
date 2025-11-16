@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Swoo Tech Mart</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Products Page Specific Styles */
+        .page-header {
+            background-color: #f8f9fa;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb span {
+            color: var(--gray);
+        }
+
+        .products-section {
+            padding: 60px 0;
+        }
+
+        .products-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+
+        .sidebar {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+
+        .sidebar-widget {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-widget:last-child {
+            margin-bottom: 0;
+        }
+
+        .widget-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-item a {
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .category-item a:hover {
+            color: var(--primary-color);
+        }
+
+        .category-count {
+            background-color: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .price-filter {
+            margin-top: 15px;
+        }
+
+        .price-inputs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .price-input {
+            flex: 1;
+        }
+
+        .price-input label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .price-input input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .filter-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .brand-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .brand-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .color-option.active::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .color-black {
+            background-color: #000;
+        }
+
+        .color-white {
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .color-red {
+            background-color: #ff0000;
+        }
+
+        .color-blue {
+            background-color: #0000ff;
+        }
+
+        .color-green {
+            background-color: #00ff00;
+        }
+
+        .color-yellow {
+            background-color: #ffff00;
+        }
+
+        .products-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .products-count {
+            font-size: 16px;
+        }
+
+        .products-count span {
+            font-weight: 600;
+        }
+
+        .products-sort {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sort-label {
+            font-size: 14px;
+        }
+
+        .sort-select {
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-option {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-option.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .products-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .product-card-list {
+            display: flex;
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .product-image-list {
+            width: 250px;
+            height: 250px;
+            position: relative;
+        }
+
+        .product-info-list {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title-list {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            margin-bottom: 15px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .product-meta {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .page-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-item.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .page-item:hover:not(.active) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 992px) {
+            .products-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .products-content {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .product-card-list {
+                flex-direction: column;
+            }
+
+            .product-image-list {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <!-- Header Top Bar -->
+        <div class="header-top">
+            <div class="container header-top-content">
+                <div class="header-top-left">
+                    <div class="welcome-text">Welcome to Swoo Tech Mart!</div>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Store Location: Hayatabad, Peshawar Pakistan</span>
+                    </div>
+                </div>
+                <div class="header-top-right">
+                    <div class="language-selector">
+                        <i class="fas fa-globe"></i>
+                        <span>English</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="currency-selector">
+                        <span>USD</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Main -->
+        <div class="header-main">
+            <div class="container header-main-content">
+                <div class="logo">
+                    <a href="index.html">Swoo Tech Mart</a>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for products...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <div class="action-item">
+                        <i class="far fa-user"></i>
+                        <span>Account</span>
+                    </div>
+                    <div class="action-item">
+                        <i class="far fa-heart"></i>
+                        <span>Wishlist</span>
+                    </div>
+                    <div class="action-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="nav-menu">
+            <div class="container nav-menu-content">
+                <div class="categories-dropdown">
+                    <i class="fas fa-bars"></i>
+                    <span>All Categories</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="contact-info">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <span>Call Us Now</span>
+                        <strong>+92 318 1936541</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1>Products</h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>Products</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-container">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Categories Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Categories</h3>
+                        <div class="category-list">
+                            <div class="category-item">
+                                <a href="#">Smartphones</a>
+                                <span class="category-count">24</span>
+                            </div>
+                            <div class="category-item">
+                                <a href="#">Laptops</a>
+                                <span class="category-count">18</span>
+                            </div>
+                            <div class="category-item">
+                                <a href="#">Tablets</a>
+                                <span class="category-count">12</span>
+                            </div>
+                            <div class="category-item">
+                                <a href="#">Headphones</a>
+                                <span class="category-count">27</span>
+                            </div>
+                            <div class="category-item">
+                                <a href="#">Smartwatches</a>
+                                <span class="category-count">15</span>
+                            </div>
+                            <div class="category-item">
+                                <a href="#">Accessories</a>
+                                <span class="category-count">32</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price Filter Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Price Filter</h3>
+                        <div class="price-filter">
+                            <div class="price-inputs">
+                                <div class="price-input">
+                                    <label for="min-price">Min</label>
+                                    <input type="number" id="min-price" placeholder="0">
+                                </div>
+                                <div class="price-input">
+                                    <label for="max-price">Max</label>
+                                    <input type="number" id="max-price" placeholder="5000">
+                                </div>
+                            </div>
+                            <button class="filter-btn">Filter</button>
+                        </div>
+                    </div>
+
+                    <!-- Brands Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Brands</h3>
+                        <div class="brand-list">
+                            <div class="brand-item">
+                                <input type="checkbox" id="brand-apple" class="brand-checkbox">
+                                <label for="brand-apple">Apple</label>
+                            </div>
+                            <div class="brand-item">
+                                <input type="checkbox" id="brand-samsung" class="brand-checkbox">
+                                <label for="brand-samsung">Samsung</label>
+                            </div>
+                            <div class="brand-item">
+                                <input type="checkbox" id="brand-google" class="brand-checkbox">
+                                <label for="brand-google">Google</label>
+                            </div>
+                            <div class="brand-item">
+                                <input type="checkbox" id="brand-sony" class="brand-checkbox">
+                                <label for="brand-sony">Sony</label>
+                            </div>
+                            <div class="brand-item">
+                                <input type="checkbox" id="brand-hp" class="brand-checkbox">
+                                <label for="brand-hp">HP</label>
+                            </div>
+                            <div class="brand-item">
+                                <input type="checkbox" id="brand-dell" class="brand-checkbox">
+                                <label for="brand-dell">Dell</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colors Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Colors</h3>
+                        <div class="color-options">
+                            <div class="color-option color-black active"></div>
+                            <div class="color-option color-white"></div>
+                            <div class="color-option color-red"></div>
+                            <div class="color-option color-blue"></div>
+                            <div class="color-option color-green"></div>
+                            <div class="color-option color-yellow"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Content -->
+                <div class="products-content">
+                    <!-- Products Header -->
+                    <div class="products-header">
+                        <div class="products-count">
+                            Showing <span>1-12</span> of <span>36</span> products
+                        </div>
+                        <div class="products-sort">
+                            <span class="sort-label">Sort By:</span>
+                            <select class="sort-select">
+                                <option value="popularity">Popularity</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="newest">Newest First</option>
+                            </select>
+                            <div class="view-options">
+                                <div class="view-option active">
+                                    <i class="fas fa-th-large"></i>
+                                </div>
+                                <div class="view-option">
+                                    <i class="fas fa-list"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="products-grid">
+                        <!-- Product 1 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/Iphone 14.png" alt="iPhone 14 Pro">
+                                <div class="product-badge badge-new">New</div>
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Smartphones</div>
+                                <h3 class="product-title">iPhone 14 Pro Max</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(120 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$1,099.00</span>
+                                    <span class="old-price">$1,199.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 2 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/Macbook.png" alt="MacBook Pro">
+                                <div class="product-badge badge-sale">-15%</div>
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Laptops</div>
+                                <h3 class="product-title">MacBook Pro 16-inch</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(85 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$2,199.00</span>
+                                    <span class="old-price">$2,599.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 3 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/john-m-smit-Mc5EwlPC3zA-unsplash.jpg" alt="AirPods Pro">
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Headphones</div>
+                                <h3 class="product-title">AirPods Pro</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(64 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$249.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 4 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/Apple Watch.png" alt="Apple Watch">
+                                <div class="product-badge badge-new">New</div>
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Smartwatches</div>
+                                <h3 class="product-title">Apple Watch Series 8</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(42 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$399.00</span>
+                                    <span class="old-price">$429.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 5 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/marios-gkortsilas-v-yctrWmRHo-unsplash.jpg" alt="Samsung Galaxy S23 Ultra">
+                                <div class="product-badge badge-sale">-10%</div>
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Smartphones</div>
+                                <h3 class="product-title">Samsung Galaxy S23 Ultra</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(78 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$1,079.00</span>
+                                    <span class="old-price">$1,199.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 6 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/sony .png" alt="Sony WH-1000XM5">
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Headphones</div>
+                                <h3 class="product-title">Sony WH-1000XM5</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(56 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$349.00</span>
+                                    <span class="old-price">$399.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 7 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/Ipad.png" alt="iPad Pro">
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Tablets</div>
+                                <h3 class="product-title">iPad Pro 12.9-inch</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(37 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$1,099.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 8 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/pixel Seven pro.png" alt="Google Pixel 7 Pro">
+                                <div class="product-badge badge-new">New</div>
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Smartphones</div>
+                                <h3 class="product-title">Google Pixel 7 Pro</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(29 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$899.00</span>
+                                    <span class="old-price">$999.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 9 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/Dell XPS 13.png" alt="Dell XPS 13">
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Laptops</div>
+                                <h3 class="product-title">Dell XPS 13</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(45 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$1,299.00</span>
+                                    <span class="old-price">$1,399.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 10 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/Samsung Watch.png" alt="Samsung Galaxy Watch 5">
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Smartwatches</div>
+                                <h3 class="product-title">Samsung Galaxy Watch 5</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(31 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$279.00</span>
+                                    <span class="old-price">$329.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 11 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/earbuds.png" alt="Bose QuietComfort Earbuds">
+                                <div class="product-badge badge-sale">-20%</div>
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Headphones</div>
+                                <h3 class="product-title">Bose QuietComfort Earbuds</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(52 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$199.00</span>
+                                    <span class="old-price">$249.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 12 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="./assets/images/Microsoft Laptop.png" alt="Microsoft Surface Laptop 5">
+                                <div class="product-actions">
+                                    <div class="action-btn"><i class="far fa-heart"></i></div>
+                                    <div class="action-btn"><i class="fas fa-eye"></i></div>
+                                    <div class="action-btn"><i class="fas fa-exchange-alt"></i></div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Laptops</div>
+                                <h3 class="product-title">Microsoft Surface Laptop 5</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(27 reviews)</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$999.00</span>
+                                    <span class="old-price">$1,099.00</span>
+                                </div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <div class="page-item active">1</div>
+                        <div class="page-item">2</div>
+                        <div class="page-item">3</div>
+                        <div class="page-item"><i class="fas fa-ellipsis-h"></i></div>
+                        <div class="page-item">10</div>
+                        <div class="page-item"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container newsletter-content">
+            <div class="newsletter-text">
+                <h2>Subscribe to Our Newsletter</h2>
+                <p>Get the latest updates on new products, special offers, and tech news delivered directly to your inbox.</p>
+            </div>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-column">
+                    <h3>Swoo Tech Mart</h3>
+                    <p>Your one-stop destination for all your tech needs. We offer a wide range of products at competitive prices with excellent customer service.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Order Tracking</a></li>
+                        <li><a href="#">Wishlist</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Hayatabad, Peshawar, Pakistan</p>
+                    <p><i class="fas fa-phone-alt"></i> +92 318 1936541</p>
+                    <p><i class="fas fa-envelope"></i> support@swootechmart.com</p>
+                    <p><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Swoo Tech Mart. All Rights Reserved.</p>
+                <div class="payment-methods">
+                    <img src="./assets/images/Visa.png" alt="Visa">
+                    <img src="./assets/images/MasterCard.png" alt="MasterCard">
+                    <img src="./assets/images/PayPal.png" alt="PayPal">
+                    <img src="./assets/images/American Express.png" alt="American Express">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // View Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const gridView = document.querySelector('.view-option:nth-child(1)');
+            const listView = document.querySelector('.view-option:nth-child(2)');
+            const productsGrid = document.querySelector('.products-grid');
+            
+            gridView.addEventListener('click', function() {
+                gridView.classList.add('active');
+                listView.classList.remove('active');
+                productsGrid.classList.remove('products-list');
+                productsGrid.classList.add('products-grid');
+                
+                // Convert list view cards back to grid view
+                const productCards = document.querySelectorAll('.product-card-list');
+                productCards.forEach(card => {
+                    card.classList.remove('product-card-list');
+                    card.classList.add('product-card');
+                    
+                    const productImage = card.querySelector('.product-image-list');
+                    if (productImage) {
+                        productImage.classList.remove('product-image-list');
+                        productImage.classList.add('product-image');
+                    }
+                    
+                    const productInfo = card.querySelector('.product-info-list');
+                    if (productInfo) {
+                        productInfo.classList.remove('product-info-list');
+                        productInfo.classList.add('product-info');
+                    }
+                    
+                    const productTitle = card.querySelector('.product-title-list');
+                    if (productTitle) {
+                        productTitle.classList.remove('product-title-list');
+                        productTitle.classList.add('product-title');
+                    }
+                });
+            });
+            
+            listView.addEventListener('click', function() {
+                listView.classList.add('active');
+                gridView.classList.remove('active');
+                productsGrid.classList.remove('products-grid');
+                productsGrid.classList.add('products-list');
+                
+                // Convert grid view cards to list view
+                const productCards = document.querySelectorAll('.product-card');
+                productCards.forEach(card => {
+                    card.classList.remove('product-card');
+                    card.classList.add('product-card-list');
+                    
+                    const productImage = card.querySelector('.product-image');
+                    if (productImage) {
+                        productImage.classList.remove('product-image');
+                        productImage.classList.add('product-image-list');
+                    }
+                    
+                    const productInfo = card.querySelector('.product-info');
+                    if (productInfo) {
+                        productInfo.classList.remove('product-info');
+                        productInfo.classList.add('product-info-list');
+                    }
+                    
+                    const productTitle = card.querySelector('.product-title');
+                    if (productTitle) {
+                        productTitle.classList.remove('product-title');
+                        productTitle.classList.add('product-title-list');
+                    }
+                });
+            });
+            
+            // Color options
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Pagination
+            const pageItems = document.querySelectorAll('.page-item');
+            pageItems.forEach(item => {
+                if (!item.classList.contains('active') && item.textContent !== '...' && !item.querySelector('i')) {
+                    item.addEventListener('click', function() {
+                        pageItems.forEach(pi => pi.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
